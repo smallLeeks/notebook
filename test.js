@@ -21,10 +21,10 @@ const child = newMethod(parent, 'ch', 25);
 child.sayName();
 
 /**
- * 基本数据类型：Number、String、Boolean、Null、undefined
+ * 基本数据类型：Number、String、Boolean、Null、undefined、symbol、bigInt
  * 说明：NaN是Number中的一种，非Number，存储在栈内存
  * 
- * 引用数据类型：Object、symbol、bigInt
+ * 引用数据类型：Object
  * 说明：Object包含function、Array、Date，存储在堆内存，其引用地址存储在栈内存
  * 
  * null和undefined
