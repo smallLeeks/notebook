@@ -165,8 +165,29 @@ var Parents = function Parents(a) {
 }
 
 /**
- * 原型继承
+ * 原型链继承
  * 
+ * 说明：新实例的原型等于父类的实例
+ * 1：新实例无法向父类构造函数传参
+ * 2：继承单一
+ * 3：所有新实例都会共享父类实例的属性
+ */
+function Super0(a) {
+  this.a = a;
+  this.fun = function() {};
+}
+Super0.prototype.a = 0;
+function Foo0() {
+  this.a = 10;
+}
+Foo0.prototype = new Super0();
+var Foo0 = new Foo0();
+console.log(Foo0);
+
+/**
+ * 构造函数继承
+ * 
+ * 说明：call、apply将父类构造函数引入子类函数
  * 1：无法向父类构造函数传参
  * 2：同时new两个对象时，改变一个对象的原型中的引用类型的属性时，另一个对象的该属性也会修改。因为
  * 来自原型对象的引用属性是所有实例共享的
@@ -179,11 +200,12 @@ function Foo1(a, b) {
   this.a = a;
   Super1.call(this, b);
 }
-var foo1 = new Foo1(1, 2);
+var Foo1 = new Foo1(1, 2);
 
 /**
  * 组合继承
  * 
+ * 说明：组合原型链和构造函数继承，传参和复用
  * 优点：不存在引用属性共享的问题，可传参，函数复用
  * 缺点：父类的属性会被实例化两次，获取不到真正的父类（无法区分实例是父类创建还是子类创建的）
  */
@@ -218,3 +240,48 @@ f.prototype = Super3.prototype;
 Foo3.prototype = new f();
 // 等同于Foo.prototype = Object.create(Super.prototype);
 var fool = new Foo3(1, 2);
+
+/**
+ * 原型继承
+ * 
+ * 说明：函数包装对象，然后返回这个函数的调用，这个函数就成为可以随意增添属性的实例或对象。object.create()原理
+ * 1：所有实例都会继承原型上的属性
+ * 2：无法实现复用（新实例属性都是后面添加的）
+ */
+function Super4(a) {
+  this.a = a;
+  this.fun = function() {};
+}
+function Foo4(obj) {
+  function f() {};
+  f.prototype = obj;
+  return new f();
+}
+var Super4 = new Super4(2);
+var Foo4 = Foo4(Super4);
+console.log(Foo4.a);
+
+/**
+ * 寄生继承
+ * 
+ * 说明：原型继承外面套一个壳子
+ * 优点：没有创建自定义类型，只是套了壳子返回这个对象
+ * 缺点：没有用到原型，无法复用
+ */
+function Super5(a) {
+  this.a = a;
+  this.fun = function() {};
+}
+function Foo5(obj) {
+  function f() {};
+  f.prototype = obj;
+  return new f();
+}
+var Super5 = new Super5();
+function obj(obj) {
+  var Foo = Foo5(obj);
+  Foo.a = 5;
+  return Foo;
+}
+var obj = obj(Super5);
+console.log(obj);
