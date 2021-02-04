@@ -54,6 +54,14 @@ child.sayName();
  * 
  * 深拷贝：将一个对象从内存中完整拷贝一份出来，从堆内存中开辟一个新的区域存放新对象，且修改新对象不会影响原对象
  */
+function shallowClone(target) {
+  let cloneTarget = {};
+  for (const key in target) {
+    cloneTarget[key] = target[key];
+  }
+  return cloneTarget;
+}
+
 function forEarch(array, interatee) {
   let index = -1;
   const length = array.length;
@@ -62,7 +70,7 @@ function forEarch(array, interatee) {
   }
   return array;
 }
-function clone(target, map = new WeakMap()) {
+function deepClone(target, map = new WeakMap()) {
   if (typeof target === 'object') {
     const isArray = Array.isArray(target);
     let cloneTarget = isArray ? [] : {};
@@ -75,7 +83,7 @@ function clone(target, map = new WeakMap()) {
       if (keys) {
         key = value;
       }
-      cloneTarget[key] = clone(target[key], map);
+      cloneTarget[key] = deepClone(target[key], map);
     });
     return cloneTarget;
   } else {
@@ -156,3 +164,57 @@ var Parents = function Parents(a) {
   this.fun = function() {};
 }
 
+/**
+ * 原型继承
+ * 
+ * 1：无法向父类构造函数传参
+ * 2：同时new两个对象时，改变一个对象的原型中的引用类型的属性时，另一个对象的该属性也会修改。因为
+ * 来自原型对象的引用属性是所有实例共享的
+ */
+function Super1(a) {
+  this.a = a;
+  this.fun = function() {};
+}
+function Foo1(a, b) {
+  this.a = a;
+  Super1.call(this, b);
+}
+var foo1 = new Foo1(1, 2);
+
+/**
+ * 组合继承
+ * 
+ * 优点：不存在引用属性共享的问题，可传参，函数复用
+ * 缺点：父类的属性会被实例化两次，获取不到真正的父类（无法区分实例是父类创建还是子类创建的）
+ */
+function Super2(a) {
+  this.a = a;
+  this.fun = function() {};
+}
+Super2.prototype.c = function() { }
+function Foo2(a, b) {
+  this.a = a;
+  Super2.call(this, b);
+}
+Foo2.prototype = Super2.prototype;
+var fool = new Foo2(1, 2);
+
+/**
+ * 寄生组合继承
+ * 
+ * 说明：对父类的prototype进行一次寄生，包装一个空对象的prototype，再把这个对象实例化出来作为子类的prototype
+ * 缺点：无法区分实例时父类创建还是子类创建的
+ */
+function Super3(a) {
+  this.a = a;
+}
+Super3.prototype.c = function() {};
+function Foo3(a, b) {
+  this.a = a;
+  Super3.call(this, b);
+}
+var f = new Function();
+f.prototype = Super3.prototype;
+Foo3.prototype = new f();
+// 等同于Foo.prototype = Object.create(Super.prototype);
+var fool = new Foo3(1, 2);
