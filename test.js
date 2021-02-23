@@ -91,7 +91,6 @@ function deepClone(target, map = new WeakMap()) {
   }
 }
 
-
 /**
  * call、bind、apply
  * 说明：第一个参数都是this的指向对象
@@ -285,3 +284,24 @@ function obj(obj) {
 }
 var obj = obj(Super5);
 console.log(obj);
+
+/**
+ * 柯里化函数
+ * 
+ * 减少代码冗余，增加可读性
+ */
+function currying() {
+  var _args = Array.prototype.slice.call(...arguments);
+  var _add = function() {
+    _args.push(...arguments);
+    return _add;
+  }
+  _add.toString = function() {
+    return _args.reduce((a, b) => {
+      return a + b;
+    });
+  }
+  console.log(_add);
+  return _add;
+}
+currying(1)(2)(3)(4)(5);
