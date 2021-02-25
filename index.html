@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="vue.js"></script>
+</head>
+<body>
+  <h1 id="name">{{test}}</h1>
+  <script>
+    var el = document.querySelector('#name');
+    const app = new Vue ({
+      data: {
+        test: '这是一个测试',
+        foo: {
+          bar: "bar"
+        }
+      }
+    }, el, 'test');
+    window.setTimeout(function () {
+      app.data.test = "hello, 你好！";
+    }, 2000);
+    
+    app.data.foo.bar = "我叫程辉";
+  </script>
+</body>
+</html>
