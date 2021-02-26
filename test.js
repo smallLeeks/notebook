@@ -34,16 +34,31 @@ child.sayName();
  * 判断数据类型
  * 1：typeof
  * 说明：返回一个字符串，表示未经计算的操作数的类型，所有引用类型返回Object
- * 判断的是值类型，typeof(function): function  typeOf(null): Object Null是空指针，对象的类型标签是0（0x00），null的类型标签为0
+ * 判断的是值类型，typeOf(null): Object Null是空指针，对象的类型标签是0（0x00），null的类型标签为0
  * 
  * 2：instanceof Boolean
- * 说明：测试一个对象在其原型链中是否存在一个构造函数的prototype属性，判断对象是否属于某一类型
- * 只能判断对象，对基本数据类型不能判断，多全局对象是返回不正确（跨窗口或frame操作）
+ * 说明：测试一个对象在其原型链中是否存在一个构造函数的prototype属性，判断对象是否属于某一类型，左侧必须是对象，右侧必须是函数
+ * 只能判断对象，对基本数据类型不能判断（发生一个装箱操作，转换为包装类型new String()），多全局对象是返回不正确（跨窗口或frame操作）
  * 
  * 3：Object.prototype.toString.call(obj) [Object ]
  * 说明：基本数据类型和引用数据类型都能返回正确的值
  * 对自定义类型（都是Objet）无效，都是返回[object Object]，还是使用instanceof
  */
+
+/**
+ * instanceof实现 
+ */
+function instance_of(obj, fun) {
+  // 基本数据类型都为false, null没有__proto__
+  const baseType = ['number', 'string', 'boolean', 'undefined', 'symbol'];
+  if (baseType.includes(typeof obj)) return false;
+  const pty = fun.prototype;
+  while (true) {
+    // obj.__proto__.proto__....null
+    if (fun === null) return false;
+    if (fun === pty) return true;
+  }
+}
 
 /**
  * 深浅拷贝
