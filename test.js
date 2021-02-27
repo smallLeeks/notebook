@@ -52,11 +52,12 @@ function instance_of(obj, fun) {
   // 基本数据类型都为false, null没有__proto__
   const baseType = ['number', 'string', 'boolean', 'undefined', 'symbol'];
   if (baseType.includes(typeof obj)) return false;
-  const pty = fun.prototype;
+  const _obj = obj.__proto__;
+  const _fun = fun.prototype;
   while (true) {
     // obj.__proto__.proto__....null
-    if (fun === null) return false;
-    if (fun === pty) return true;
+    if (_obj === null) return false;
+    if (_obj === _fun) return true;
   }
 }
 
@@ -173,6 +174,7 @@ function _classCheck(instance, constructor) {
   }
 }
 var Parents = function Parents(a) {
+
   _classCheck(this, Parents);
   this.a = 1;
   this.fun = function() {};
