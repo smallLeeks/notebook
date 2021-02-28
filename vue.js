@@ -4,7 +4,7 @@
  * 2：数据劫持 =>递归处理observer数据嵌套 => Object.defineProperty
  *    set：拿到子集依赖，判断value并通知订阅者是否改变
  *    get: 把watcher实例指定到Dep收集器的静态属性target，缓存订阅者
- * 3：Dep收集器：没收集一个子依赖，就new一个watcher实例
+ * 3：Dep收集器：每收集一个子依赖，就new一个watcher实例
  * 4：watcher订阅者：
  *    updata：通知数据更新，执行run()
  *    run：新旧数据对比执行回调
