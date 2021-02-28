@@ -43,6 +43,18 @@ child.sayName();
  * 3：Object.prototype.toString.call(obj) [Object ]
  * 说明：基本数据类型和引用数据类型都能返回正确的值
  * 对自定义类型（都是Objet）无效，都是返回[object Object]，还是使用instanceof
+ * 
+ * 原型：
+ *  1：所有引用类型都有一个__protot__（隐式原型），属性值是一个普通对象
+ *  2：所有函数都有一个prototype（原型）属性，属性值是一个普通对象
+ *  3：所有的__proto__属性指向它构造函数的prototype
+ * 
+ * 原型链
+ *  访问一个对的某个属性时，先在这个对象本身属性上查找，如果找不到，则取它的__proto__上查找，如果还找不到，
+ *  则去构造函数prototype的__proto__查找，一层一层的查找形成一个链式结构
+ *  1：一直往上层查找，直到null还没找到，返回undefined
+ *  2：Object.prototype.__proto__ = null;
+ *  3：所有从原型或高级原型中得到、执行的方法，其中this在执行时，指向当前这个出发事件的对象
  */
 
 /**

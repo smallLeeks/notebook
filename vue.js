@@ -1,5 +1,5 @@
 /**
- * 实现流程
+ * 实现流程；数据劫持+发布订阅
  * 1：observer遍历收集子数据，多少属性，定义多少个set和get
  * 2：数据劫持 =>递归处理observer数据嵌套 => Object.defineProperty
  *    set：拿到子集依赖，判断value并通知订阅者是否改变
@@ -47,7 +47,6 @@ class Vue {
     // 递归处理数据嵌套
     this.observer();
     const dep = new Dep();
-    console.log(data);
     Object.defineProperty(data, key, {
       get: () => {
         Dep.target && dep.addDep(Dep.target);
@@ -109,4 +108,54 @@ class Watcher {
     Dep.target = null;
     return value;
   }
+}
+
+/**
+ * complie 解析、初始化、编译
+ * 
+ * 1：解析模板指令，替换数据，更新视图
+ * 2：绑定模板指令对应节点到对应更新函数，初始化订阅器
+ */
+class paseElement {
+  constructor() {
+    this.els = null; // 虚拟节点对象
+  }
+  // 创建虚拟节点对象
+  nodeEls(el) {
+    this.els = document.createDocumentFragment();
+    const child = el.firstChild;
+    while (child) {
+      this.els.appendChild(child);
+      child = el.firstChild;
+    }
+    return this.els;
+  }
+  // 编译节点
+  compileEle(el) {
+    const childNodes = el.childNodes;
+    [].slice.call(childNodes).forEach(x => {
+      const reg = /\{\{.*}\}\}/;
+      const text = x.textContent;
+      if (this.isTextNode() && reg.test(text)) {
+        this.compileText(node, reg.exec(text)[1]);
+      }
+      if (x.childNodes && x.childNodes.length) {
+        this.compileEle(x);
+      }
+    });
+  }
+  compileText(node, data) {
+    const initText = this.vm[data];
+    this.updataText(node, initText); // 初始化数据到视图
+    new Watcher(this.vm, data, value => { // 生成订阅器绑定更新函数
+      this.updataText(node, value);
+    })
+  }
+}
+
+class compile {
+  constructor(node) {
+    this.nodeAttrs = node.attributes;
+  }
+
 }
