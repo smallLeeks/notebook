@@ -25,7 +25,7 @@ class Vue {
     new Watcher(options, key, value => {
       el.innerHTML = value;
     });
-    this.data.test
+    this.data.test;
   }
 
   // 遍历对象，多少属性定义多少个get和set
