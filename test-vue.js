@@ -7,10 +7,8 @@
  * MVVM：
  *  Model：处理数据逻辑
  *  View：处理数据显示
- *  ViewModel：数据绑定到ViewModel并渲染页面，视图变化通知ViewModel跟新数据
- */
-
-/**
+ *  ViewModel：数据绑定到ViewModel并渲染页面，视图变化通知ViewModel更新数据
+ *
  * v-model
  * value+input方法的语法糖。会根据标签的不同生成不同的事件和属性
  * 
