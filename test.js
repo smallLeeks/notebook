@@ -29,7 +29,7 @@ child.sayName();
  * 
  * null和undefined
  * null：表示被赋值过的对象，刻意把一个对象赋值为null，表示其为空，转换为数值时值为0
- * undefined：undefined转为数值时为NaN（非数字值的特殊值）
+ * undefined：表示缺少值，没有定义。undefined转为数值时为NaN（非数字值的特殊值）
  * 
  * 判断数据类型
  * 1：typeof
@@ -186,7 +186,6 @@ function _classCheck(instance, constructor) {
   }
 }
 var Parents = function Parents(a) {
-
   _classCheck(this, Parents);
   this.a = 1;
   this.fun = function() {};
@@ -360,3 +359,81 @@ getName();
 new foo.getName();
 new foo().getName();
 new new foo().getName();
+
+/**
+ * 冒泡排序
+ * 
+ * 比较相邻两个元素
+ */
+function bubbleSort(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
+      if (array[j] > array[j + 1]) {
+        let newData = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = newData;
+      }
+    } 
+  }
+  return array;
+}
+
+/**
+ * 计数排序
+ * 
+ * 数组元素作为数组下标，然后用一个临时数组统计元素出现的次数
+ */
+
+/**
+ * 快速排序
+ * 
+ * 1：选择数组中间数作为基数
+ * 2：创建两个数组，较小的放在左边，较大的放在右边
+ * 3：递归处理两个数组，并将处理后的数据与基数按照大小合并
+ */
+function quickSort(arr) {
+  if (arr.length <= 1) return arr;
+  let index = Math.floor(arr.length / 2);
+  let mid = arr.splice(index, 1)[0], left = [], right = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (mid > arr[i]) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return quickSort(left).concat([mid], quickSort(right));
+}
+
+/**
+ * 归并排序
+ * 
+ * 1：把数组拆分为A、B两个小组，两个小组继续拆直到一个元素为止
+ * 2：按照拆分过程逐步合并小组
+ * 3：对左右两个小数列重复第二步，指导各区间只有一个数
+ */
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  let mid = Math.floor(arr.length / 2);
+  let left = arr.slice(0, mid), right = arr.slice(mid);
+  let mergerLeft = mergeSort(left);
+  let mergerRight = mergeSort(right);
+  return merge(mergerLeft, mergerRight);
+}
+function merge(left, right) {
+  let result = [];
+  while (left.length && right.length) {
+    if (left[0] <= right[0]) {
+      result.push(left.shift());
+    } else {
+      result.push(right.shift());
+    }
+  }
+  while (left.length) {
+    result.push(left.shift());
+  }
+  while (right.length) {
+    result.push(right.shift());
+  }
+  return result;
+}
