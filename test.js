@@ -60,6 +60,12 @@ child.sayName();
  *  1：一直往上层查找，直到null还没找到，返回undefined
  *  2：Object.prototype.__proto__ = null;
  *  3：所有从原型或高级原型中得到、执行的方法，其中this在执行时，指向当前这个出发事件的对象
+ * 
+ * 箭头函数：
+ * 1：无构造函数
+ * 2：无this指向
+ * 3：没有原型属性
+ * 4：没有arguments，但是可以...reset
  */
 
 /**
