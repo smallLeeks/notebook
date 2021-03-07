@@ -29,7 +29,7 @@ child.sayName();
  * 
  * null和undefined
  * null：表示被赋值过的对象，刻意把一个对象赋值为null，表示其为空，转换为数值时值为0
- * undefined：表示缺少值，没有定义。undefined转为数值时为NaN（非数字值的特殊值）
+ * undefined：表示未定义的变量。undefined转为数值时为NaN（非数字值的特殊值）
  * 
  * var、let、const
  * var：可以跨块访问，不能跨函数访问
@@ -121,6 +121,34 @@ function deepClone(target, map = new WeakMap()) {
     return cloneTarget;
   } else {
     return target;
+  }
+}
+
+/**
+ * 防抖和节流
+ * 
+ * 防抖：触发高频事件n秒后执行一次
+ * 节流：触发高频时间n秒内执行一次
+ */
+function debounce(fn, delay) {
+  let timeout = null;
+  return function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn.apply(this, arguments);
+    }, delay);
+  }
+}
+
+function throttle(fn, delay) {
+  let flag = true;
+  return function() {
+    if (!flag) return;
+    flag = false;
+    setTimeout(() => {
+      fn.apply(this, arguments);
+      flag = true;
+    }, delay);
   }
 }
 
