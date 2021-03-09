@@ -1,7 +1,7 @@
 /**
  * 实现流程；数据劫持+发布订阅
  * 1：observer遍历收集子数据，多少属性，定义多少个set和get
- * 2：数据劫持 =>递归处理observer数据嵌套 => Object.defineProperty
+ * 2：数据劫持 => 递归处理observer数据嵌套 => Object.defineProperty
  *    set：拿到子集依赖，判断value并通知订阅者是否改变
  *    get: 把watcher实例指定到Dep收集器的静态属性target，缓存订阅者
  * 3：Dep收集器：每收集一个子依赖，就new一个watcher实例
