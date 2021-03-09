@@ -78,6 +78,11 @@ child.sayName();
  * 一个事件循环中有一个或者多个任务队列
  * 1：宏任务：script、setTimeout、setInterval、setimmediate、I/O、UI rendering
  * 2：微任务：process.nextTick、Promise、Object.observe、promise.then()
+ * 
+ * commonJS、esModule
+ * 1：commonJS是被加载的时候运行，esModule是编译的时候运行
+ * 2：commonJS输出的时值的浅拷贝，esModule输出值得引用
+ * 3：commonJS具有缓存，在第一次被加载时，会完整运行整个文件并输出一个对象，浅拷贝在内存中。下次加载文件时，直接从内存中取值
  */
 async function async1() {
 	console.log('async1 start');
