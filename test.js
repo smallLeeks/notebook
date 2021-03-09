@@ -77,7 +77,7 @@ child.sayName();
  * 
  * 一个事件循环中有一个或者多个任务队列
  * 1：宏任务：script、setTimeout、setInterval、setimmediate、I/O、UI rendering
- * 2：微任务：process.nextTick、Promise、Object.observe、
+ * 2：微任务：process.nextTick、Promise、Object.observe、promise.then()
  */
 async function async1() {
 	console.log('async1 start');
@@ -390,7 +390,7 @@ console.log(obj);
  * 减少代码冗余，增加可读性
  */
 function currying() {
-  var _args = Array.prototype.slice.call(...arguments);
+  var _args = Array.prototype.slice.call(arguments);
   var _add = function() {
     _args.push(...arguments);
     return _add;
