@@ -66,7 +66,39 @@ child.sayName();
  * 2：无this指向
  * 3：没有原型属性
  * 4：没有arguments，但是可以...reset
+ * 
+ * ES6模块和CommonJS模块
+ * 1：CommonJS输出的是值的拷贝，ES6模块输出的是值得引用
+ * 2：CommonJS是运行时加载，ES6模块时编译时输出接口
+ * 
+ * EventLoop
+ * 调用栈中的同步任务都执行完毕，栈内被清空，表示主线程空闲，这个时候会去任务队列中按照顺序读取一个任务放入栈中执行。
+ * 每次栈内被清空，都会读取任务队列有没有任务，有就去读取执行，一直循环读取-执行的操作
+ * 
+ * 一个事件循环中有一个或者多个任务队列
+ * 1：宏任务：script、setTimeout、setInterval、setimmediate、I/O、UI rendering
+ * 2：微任务：process.nextTick、Promise、Object.observe、
  */
+async function async1() {
+	console.log('async1 start');
+	await async2();
+	console.log('asnyc1 end');
+}
+async function async2() {
+	console.log('async2');
+}
+console.log('script start');
+setTimeout(() => {
+	console.log('setTimeOut');
+}, 0);
+async1();
+new Promise(function (reslove) {
+	console.log('promise1');
+	reslove();
+}).then(function () {
+	console.log('promise2');
+})
+console.log('script end');
 
 /**
  * instanceof实现 
